@@ -1,4 +1,5 @@
 <?php
+//Se incluye la conexion a la base de datos
 include_once '../Conexion.php';
 
 ?>
@@ -38,6 +39,7 @@ include_once '../Conexion.php';
                 <center>
                 <table class="table table-hover">
                 
+                <!--Diferentes campos para agregar datos para agregar a la base de datos-->
                 <tr>
                 <td><B>Nombre:</B></td>
                 <td> <INPUT TYPE="text" NAME="nombre" id="nombre" value="" SIZE=40 MAXLENGTH=50 required></td>
@@ -54,6 +56,7 @@ include_once '../Conexion.php';
                 <td><B>Telefono:</B></td>
                 <td> <INPUT TYPE="text" NAME="telefono" id="nombre" value="" SIZE=40 MAXLENGTH=50 required></td>
 
+                <!--Una sentencia while para mostrar las categorias de fabricantes existentes-->
                 <tr>
                 <td><B>Categoria:</B></td>
                 <td> <SELECT NAME="categoria">
