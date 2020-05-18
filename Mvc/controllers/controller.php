@@ -118,11 +118,11 @@
 
 		//Lista de metodos de modelos por desarrollar:
 		/*
-		1. registroUsuarioModel
-		2. ingresoUsuarioModel
-		3. vistaUsuarioModel
-		4. editarUsuarioModel
-		5. actualizarUsuarioModel
+		1. registroUsuarioModel - ok
+		2. ingresoUsuarioModel - ok
+		3. vistaUsuarioModel - ok
+		4. editarUsuarioModel - ok
+		5. actualizarUsuarioModel - ok
 		6. borrarUsuarioModel
 		*/
 
