@@ -1,111 +1,90 @@
 <?php
-require_once "conexion.php";
+	require_once "conexion.php";
 
 
-//Heredar la clase conexion.php para poder accesar y utilizar la conexion a la base de datos, se extiende cuando se requiere manipular una funcion o metodo, en este caso manipularemos la funcion "conectar" de models/conexion.php
-class Datos extends Conexion{
+	//heredar la calse conexion.php para poder acccesar y ttilizar la conexion a la base de dats, s extiende cuando se quiere manipular una funcion o méotod, en este caso manipularemos la funcion "conectar" de models/conexion.php
+	class Datos extends Conexion{
+		//registo de usuarios
+		public function registroUsuariosModel($datosModel,$tabla){
+			//prepare() Prepara la sentencia de sql para que sea ejectuada por el metodo Postantment. la sentencia de sql se puede contener desde 0 para ejectuat mas parametos
+			$stmt = Conexion::conectar()->prepare("INSERT INTO $tabla (usuario,password, email) VALUES(:usuario,:password,:email)");
 
-	//Registro de usuarios
-	public function registroUsuarioModel($datosModel, $tabla){
+			//bindParam() vincula una variable de php a un parametro de sustituion con nombre correspondiente a la sentencia SQL que fue usada para preparar la sentencia
+			$stmt->bindParam(":usuario",$datosModel["usuario"], PDO::PARAM_STR);
+			$stmt->bindParam(":password",$datosModel["password"], PDO::PARAM_STR);
+			$stmt->bindParam(":email",$datosModel["email"], PDO::PARAM_STR);
 
-		//Prepara la sentencia de SQL para que sea ejecutada por el metodo POSStatement. La sentencia de SQL se puede contener desde 0 para ejecutar mas parametros
+			//regresar una respuesta satisfactoria o no
 
-		$stmt  = Conexion::conectar()->prepare("INSERT INTO $tabla (usuario, password, email) VALUES (:usuario, :password, :email)");
-
-		//bindParam() vincula una variable de php a un parametro de sustitucion con nombre correspondiente a la sentencia SQL que fue usada para preparar la sentencia
-
-		$stmt->bindParam(":usuario, $datosModel["usuario"], PDO::PARAM_STR");
-		$stmt->bindParam(":password, $datosModel["password"], PDO::PARAM_STR");
-		$stmt->bindParam(":email, $datosModel["email"], PDO::PARAM_STR");
-
-		//Regresar una respuesta satisfactoria o no
-
-		if($stmt->execute()){
-			return "Success";
-		}else{
-			return "Error";
+			if($stmt->execute()){
+				return "success";
+			}else{
+				return "error";
+			}
+			$stmt->close();
 		}
 
-		$stmt->close();
-	}
+		//modelo ingresoUsuarioModel
+		public static function ingresoUsuarioModel($datosModel,$tabla){
+			$stmt = Conexion::conectar()->prepare("SELECT usuario, password FROM $tabla WHERE usuario=:usuario");
+			$stmt->bindParam(":usuario", $datosModel["usuario"], PDO::PARAM_STR);
+			$stmt->execute();
+			//fetch() Obtiene una fila de un conjunto de resultados 
+			return $stmt->fetch();
 
-	//Modelo ingresoUsuarioModel
-	public function ingresoUsuarioModel($datosModel, $tabla){
-		$stmt = Conexion::conectar()->prepare("SELECT usuario, password FROM $tabla WHERE usuario = :usuario");
-
-		$stmt = bindParam(":usuario", $datosModel["usuario"],PDO::PARAM_STR);
-
-		$stmt = execute();
-
-		//Fetch() obtiene una fila de un conjunto de resultados asociado al objeto $stmt
-		return $stmt->fetch();
-
-		$stmt -> close();
-	}
-
-	//Modelo vista usuarios
-	public function vistaUsuarioModel($tabla){
-		$stmt = Conexion::conectar()->prepare("SELECT id, usuario, password, email FROM $tabla");
-
-		$stmt->execute();
-
-		//fetchAll(): obtiene todas las filas de un conjunto de resultados asociaod al objeto PDO statemnt (stmt)
-		return $stmt->fetchAll();
-
-		$stmt -> close();
-	}
-
-	//Modelo Editar Usuarios
-	public function editarUsuarioModel($datosModel, $tabla){
-		$stmt = Conexion::conectar()->prepare("SELECT id, usuario, password, email FROM $tabla WHERE id = :id");
-
-		$stmt -> bindParam(":id", $datosModel, PDO::PARAM_INT);
-
-		$stmt -> execute();
-
-		return $stmt->fetch();
-
-		$stmt -> close();
-	}
-
-	//Modelo Actualizar Usuario
-	public function actualizarUsuarioModel($datosModel, $tabla){
-		$stmt = Conexion:conectar()->prepare("UPDATE $tabla SET usuario=:usuario, password=:password, email=:email WHERE id=:id");
-
-		$stmt -> bindParam(":usuario", $datosModel["usuario"], PDO::PARAM_STR);
-		$stmt -> bindParam(":password", $datosModel["password"], PDO::PARAM_STR);
-		$stmt -> bindParam(":email", $datosModel["email"], PDO::PARAM_STR);
-		$stmt -> bindParam(":id", $datosModel["id"], PDO::PARAM_STR);
-
-		if($stmt->execute()){
-			return "Success";
+			$stmt->close();
 		}
-		else{
-			return "Error";
+		
+		//MOdelo vistaUsuarioModel
+		public static function vistaUsuarioModel($tabla){
+			$stmt = Conexion::conectar()->prepare("SELECT id, usuario, password,email FROM $tabla");
+			$stmt->execute();
+			//fetchAll: obtiene todas las fils de un conjunto asociado al objeto PDO statment (stmt)
+
+			return $stmt->fetchAll();
+			$stmt->close();
+
 		}
 
-		$stmt -> close();
-	}
+		//Editar usuarios
+		public function editarUsuarioModel($datosModel,$tabla){
+			$stmt =Conexion::conectar()->prepare("SELECT id, usuario, password, email FROM $tabla WHERE id=:id");
+			$stmt->bindParam(":id",$datosModel,PDO::PARAM_INT);
+			$stmt->execute();
 
-	//Modelo Borrar Usuario
-	public function borrarUsuarioModel($datosModel, $tabla){
-		$stmt = Conexion::conectar()->prepare("DELETE FROM $tabla WHERE id=:id");
+			return $stmt->fetch();
 
-		$stmt->bindParam("id", $datosModel, PDO::PARAM_INT);
+			$stmt->close();
 
-
-		if($stmt->execute()){
-			return "Success";
-		}else{
-			return "Error";
 		}
 
-		$stmt -> close();
+		public function actualizarUsuarioModel($datosModel,$tabla){
+			$stmt=Conexion::conectar()->prepare("UPDATE $tabla SET usuario=:usuario, password=:password, email=:email WHERE id=:id");
+
+			$stmt->bindParam(":usuario",$datosModel["usuario"], PDO::PARAM_STR);
+			$stmt->bindParam(":password",$datosModel["password"], PDO::PARAM_STR);
+			$stmt->bindParam(":email",$datosModel["email"], PDO::PARAM_STR);
+			$stmt->bindParam(":id",$datosModel["id"], PDO::PARAM_INT);
+			if($stmt->execute()){
+				return "success";
+			}else{
+				return "error";
+			}
+			$stmt->close();
+
+		}
+
+		public static function borrarUsuarioModel($datosModel,$tabla){
+            $stmt=Conexion::conectar()->prepare("DELETE FROM $tabla WHERE id=:id");
+            $stmt->bindParam(":id",$datosModel, PDO::PARAM_INT);
+
+            if($stmt->execute()){
+                return "success";
+            }else{
+                return "error";
+            }
+            $stmt->close();
+        }
+
 	}
-
-}
-
-
-
-
 ?>
