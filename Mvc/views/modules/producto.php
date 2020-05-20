@@ -7,14 +7,17 @@
 	}
 
 ?>
-<H1>USUARIOS</H1>
+
+<H1>PRODUCTOS</H1>
 
 <TABLE>
 	<thead>
 		<tr>
-			<th>Usuario</th>
-			<th>Contraseña</th>
-			<th>Email</th>
+			<th>Nombre</th>
+			<th>Descripcion</th>
+			<th>Precio de venta</th>
+			<th>Precio de compra</th>
+			<th>Inventario</th>
 			<th>¿Editar?</th>
 			<th>¿Eliminar?</th>
 		</tr>
@@ -22,8 +25,8 @@
 	<tbody>
 		<?php
 			$vistaUsuario = new MvcController();
-			$vistaUsuario -> vistaUsuariosController();
-			$vistaUsuario -> borrarUsuarioController();
+			$vistaUsuario -> vistaProductosController();
+			$vistaUsuario -> borrarProductoController();
 		?>
 	</tbody>
 </TABLE>

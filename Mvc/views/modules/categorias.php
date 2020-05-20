@@ -7,14 +7,13 @@
 	}
 
 ?>
-<H1>USUARIOS</H1>
+
+<H1>CATEGORIAS</H1>
 
 <TABLE>
 	<thead>
 		<tr>
-			<th>Usuario</th>
-			<th>Contraseña</th>
-			<th>Email</th>
+			<th>Nombre</th>
 			<th>¿Editar?</th>
 			<th>¿Eliminar?</th>
 		</tr>
@@ -22,8 +21,8 @@
 	<tbody>
 		<?php
 			$vistaUsuario = new MvcController();
-			$vistaUsuario -> vistaUsuariosController();
-			$vistaUsuario -> borrarUsuarioController();
+			$vistaUsuario -> vistaCategoriasController();
+			$vistaUsuario -> borrarCategoriaController();
 		?>
 	</tbody>
 </TABLE>
